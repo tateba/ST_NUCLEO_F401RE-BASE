@@ -1,25 +1,26 @@
 *****************************************************************************
-** ST_NUCLEO_F401RE-BASE.                                                  **
+** ST NUCLEO F401RE BASE PROGRAM                                           **
 *****************************************************************************
 
-** Description **
-    This program is a start point for my other projects, it just blink a LED
-    and print a message to the Serial Driver 2 ( the USB port com ).
+Description
+	This program is a starting point for any other projects.
+	It just blink a LED and print a value of a counter to the Serial 
+	Driver 2 (the USB port com).
 
-** RTOS **
-    The RTOS use is ChibiOS/RT.
+RTOS
+	The RTOS use is ChibiOS/RT, Thanks to Giovanni.
 
-** TARGET **
-    The program runs on an ST NUCLEOF401RE board.
+TARGET
+	The program runs on an ST NUCLEOF401RE board from ST-Microelectronics.
 
-** The Program **
-    The program flashes the on board LED using a thread and send a message to
-    the serial port 2 at the same time.
-
-** Build Procedure **
+Build Procedure
     1- Change the ChibiOS path according to your directories on the Makefile.
     2- Type make to compile the program
 
-** Flash the Board **
+Flash the Board
+	To program the board you can use one of the following:
     1- By using the st-flash command: st-flash write build/ch.bin 0x8000000
-    2- By using my command: make program
+    2- By using my command, I add a makefile rules to easy program the board.
+	the command is then: make program
+
+Enjoy, comment.....

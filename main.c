@@ -14,12 +14,18 @@
     limitations under the License.
 */
 
+/*
+* Includes libraries files
+*/
 #include "ch.h"
 #include "hal.h"
 #include "chprintf.h"
 
-BaseSequentialStream* pc = (BaseSequentialStream*) &SD2;
-uint16_t counter = 0;
+/*
+* Variables:
+*/
+BaseSequentialStream* pc = (BaseSequentialStream*) &SD2; ///< Help to print data to a serial port
+uint16_t counter = 0;	// Counter f
 
 /*
  * LED blinker thread, times are in milliseconds.
@@ -29,13 +35,12 @@ static THD_FUNCTION(Thread1, arg){
     
     (void)arg;
     chRegSetThreadName("blinker");
-    
+    systime_t time = chVTGetSystemTimeX();
     while (true){
-        palClearPad(GPIOA, GPIOA_LED_GREEN);
-        chThdSleepSeconds(5);
-        palSetPad(GPIOA, GPIOA_LED_GREEN);
-        chThdSleepSeconds(5);
-        chprintf(pc, "\n\r : Hello - %d", counter++);
+		time += MS2ST(1000);
+		palTogglePad(GPIOA, GPIOA_LED_GREEN);
+        chprintf(pc, "\n\rfox: Hello - %d", counter++);
+		chThdSleepUntil(time);
     }
 }
 
@@ -54,20 +59,21 @@ int main(void){
     chSysInit();
 
     /*
-    * Creates the blinker thread.
-    */
-    chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
-
-    /*
     * Init Serial Driver 2 using the default configuration
     */
     sdStart(&SD2, NULL);
+	chprintf(pc, "\n\r\n\rfox: Init serial port.");
 
     /*
-    * Normal main() thread activity, in this demo it does nothing except
-    * sleeping in a loop and check the button state.
+    * Creates the blinker thread.
+    */
+	chprintf(pc, "\n\rfox: Create thread to blink the onboard LED2, increment a counter and print it to the serial port 2 (USB).");
+    chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
+
+    /*
+    * Normal main() thread activity, in this demo it does nothing.
     */
     while (true){
-        chThdSleepMilliseconds(1);
+        chThdSleepMilliseconds(1000);
     }
 }
